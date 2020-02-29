@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+    <Name>OTRSSysConfigChanges</Name>
+    <Version>1.0</Version>
+    <Framework>6.0.x</Framework>
+    <Vendor>Łukasz Leszczyński</Vendor>
+    <URL>https://github.com/lleszczynski/OTRSSysConfigChanges</URL>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
+    <Description Lang="pl">Pozwala użytkownikom na podgląd zmian dokonanych w ustawieniach SysConfig.</Description>
+    <Description Lang="en">Allows users to preview changes made in SysConfig settings.</Description>
+    <BuildDate>?</BuildDate>
+    <BuildHost>?</BuildHost>
+    <Filelist>
+        <File Permission="644" Location="Kernel/Config/Files/XML/SysConfigChanges.xml"></File>
+        <File Permission="644" Location="Kernel/Language/pl_SysConfigChanges.pm"></File>
+        <File Permission="644" Location="Kernel/Modules/AgentSysConfigChanges.pm"></File>
+        <File Permission="644" Location="Kernel/System/SysConfigChanges.pm"></File>
+        <File Permission="644" Location="Kernel/Output/HTML/Templates/Standard/SysConfigChangesPreview.tt"></File>
+        <File Permission="644" Location="var/httpd/htdocs/js/Core.Agent.Admin.SysConfigChanges.js"></File>
+    </Filelist>
+</otrs_package>

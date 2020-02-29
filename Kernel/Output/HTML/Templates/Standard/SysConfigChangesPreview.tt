@@ -1,0 +1,61 @@
+# --
+# Copyright (C) 2020 Łukasz Leszczyński
+# --
+# This software comes with ABSOLUTELY NO WARRANTY.
+# See https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+<div>
+    <div class="InnerContent">
+        <h2>[% Translate("Setting") | html %]: <b>[% Data.Name %]</b></h2>
+        [% IF Data.IsChanged == "1" %]
+        <table class="DataTable" id="SysConfigChanges">
+            <thead>
+                <tr>
+                    <th>[% Translate("No.") | html %]</th>
+                    <th>[% Translate("Created") | html %]</th>
+                    <th>[% Translate("Created by") | html %]</th>
+                    <th>[% Translate("Value") | html %]</th>
+                    <th>[% Translate("Restore") | html %]</th>
+                </tr>
+            </thead>
+            <tbody>
+                [% FOREACH Item IN Data.Changes %]
+                <tr>
+                    <td>
+                        [% loop.count %]
+                    </td>
+                    <td>
+                        [% Item.CreateTime %]
+                    </td>
+                    <td>
+                        [% Item.CreateBy %]
+                    </td>
+                    <td>
+                        [% Item.EffectiveValue %]
+                    </td>
+                    <td class = "Center">
+                        [% IF NOT loop.last %]
+                        <a href="#" class="ChangeRestore">
+                            <i class="fa fa-undo" aria-hidden="true"></i>
+                            <input type="hidden" value="[% Item.ID %]" name="[% Data.Name %]">
+                        </a>
+                        [% END %]
+                    </td>
+                </tr>
+                [% END %]
+            </tbody>
+        </table>
+            
+        [% ELSIF Data.UpdateFail %]
+            <p>[% Translate("This setting is currently locked by another user.") | html %]</p>
+        [% ELSE %]
+            <p>[% Translate("This setting has not been changed.") | html %]</p>
+        [% END %]
+    </div>
+    <div class="ContentFooter Center">
+        <button class="CallForAction CloseDialog" value="[% Translate("Cancel") | html %]">
+            <span>[% Translate("Cancel") | html %]</span>
+        </button>
+    </div>
+</div>
