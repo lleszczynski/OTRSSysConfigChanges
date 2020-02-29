@@ -19,6 +19,12 @@ sub Data {
     $Self->{Translation}->{'This setting is currently locked by another user.'} = 'To ustawienie jest obecnie edytowane przez innego użytkownika.';
     $Self->{Translation}->{'This setting has not been changed.'} = 'To ustawienie nie było zmieniane.';
     $Self->{Translation}->{'Restore'} = 'Odtwórz';
+    $Self->{Translation}->{'Setting'} = 'Ustawienie';
+
+    $Self->{JavaScriptStrings} = [
+    	'Changes preview',
+    	'Changes',
+    ];
 
     return 1;
 }
