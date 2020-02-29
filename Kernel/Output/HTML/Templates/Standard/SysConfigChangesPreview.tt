@@ -32,7 +32,7 @@
                         [% Item.CreateBy %]
                     </td>
                     <td>
-                        [% Item.EffectiveValue %]
+                        [% Item.EffectiveValue | replace ('\n', '<br>') %]
                     </td>
                     <td class = "Center">
                         [% IF NOT loop.last %]
