@@ -37,15 +37,32 @@ sub Run {
 
         my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
 
-        my @Changes = $SysConfigChangesObject->ChangesPreviewGet(
+        my @ChangesList = $SysConfigChangesObject->ChangesList(
             Name => $Name,
         );
 
         my %Data;
-        if (scalar @Changes) {
+        if (scalar @ChangesList) {
             $Data{IsChanged} = 1;
-            $Data{ChangesNumber} = scalar @Changes;
-            $Data{Changes} = \@Changes;
+            $Data{ChangesNumber} = scalar @ChangesList;
+
+            my $Counter = 0;
+            for my $ChangeID (@ChangesList) {
+                $Counter++;
+
+                my %Change = $SysConfigChangesObject->ChangePreviewGet(
+                    ID => $ChangeID,
+                );
+
+                $LayoutObject->Block(
+                    Name => 'ChangeRow',
+                    Data => {
+                        Count => $Counter,
+                        Last  => $Counter eq $Data{ChangesNumber} ? 1 : 0,
+                        %Change,
+                    },
+                );
+            }
         }
 
         $Data{Name} = $Name;

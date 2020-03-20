@@ -25,14 +25,14 @@ sub new {
     return $Self;
 }
 
-sub ChangesPreviewGet {
+sub ChangesList {
     my ( $Self, %Param ) = @_;
 
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     # create sql
-    my $SQL = 'SELECT id, sysconfig_default_version_id, name, is_valid, effective_value, reset_to_default, create_time, create_by ' .
+    my $SQL = 'SELECT id ' .
         'FROM sysconfig_modified_version ' .
         'WHERE name = ?' .
         'ORDER BY create_time';
@@ -43,27 +43,47 @@ sub ChangesPreviewGet {
         Bind => [\$Param{Name}],
     );
 
-    return if !$DBObject->Prepare(
-        SQL => $SQL,
-        Bind => [\$Param{Name}],
-    );
-
     # fetch the result
     my @Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        my %Change;
-        $Change{ID}               = $Row[0];
-        $Change{DefaultVersionID} = $Row[1];
-        $Change{Name}             = $Row[2];
-        $Change{IsValid}          = $Row[3];
-        $Change{EffectiveValue}   = $Row[4];
-        $Change{ResetToDefault}   = $Row[5];
-        $Change{CreateTime}       = $Row[6];
-        $Change{CreateBy}         = $UserObject->UserLookup(UserID => $Row[7], Silent => 1);
-        push @Data, \%Change;
+        push @Data, $Row[0];
     }
 
     return @Data;
+}
+
+sub ChangePreviewGet {
+    my ( $Self, %Param ) = @_;
+
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+    # create sql
+    my $SQL = 'SELECT id, sysconfig_default_version_id, name, is_valid, effective_value, reset_to_default, create_time, create_by ' .
+        'FROM sysconfig_modified_version ' .
+        'WHERE id = ?' .
+        'ORDER BY create_time';
+
+
+    return if !$DBObject->Prepare(
+        SQL => $SQL,
+        Bind => [\$Param{ID}],
+    );
+
+    # fetch the result
+    my %Data;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Data{ID}               = $Row[0];
+        $Data{DefaultVersionID} = $Row[1];
+        $Data{Name}             = $Row[2];
+        $Data{IsValid}          = $Row[3];
+        $Data{EffectiveValue}   = $Row[4];
+        $Data{ResetToDefault}   = $Row[5];
+        $Data{CreateTime}       = $Row[6];
+        $Data{CreateBy}         = $UserObject->UserLookup(UserID => $Row[7], Silent => 1);
+    }
+
+    return %Data;
 }
 
 sub ChangeValueGet {

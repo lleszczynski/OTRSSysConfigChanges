@@ -20,33 +20,34 @@
                 </tr>
             </thead>
             <tbody>
-                [% FOREACH Item IN Data.Changes %]
+[% RenderBlockStart("ChangeRow") %]
                 <tr>
                     <td>
-                        [% loop.count %]
+                        [% Data.Count %]
                     </td>
                     <td>
-                        [% Item.CreateTime %]
+                        [% Data.CreateTime %]
                     </td>
                     <td>
-                        [% Item.CreateBy %]
+                        [% Data.CreateBy %]
                     </td>
                     <td>
-                        [% Item.EffectiveValue | replace ('\n', '<br>') %]
+                        [% Data.EffectiveValue | replace ('\n', '<br>') %]
                     </td>
                     <td class = "Center">
-                        [% IF NOT loop.last %]
+                        [% IF NOT Data.Last %]
                         <a href="#" class="ChangeRestore">
                             <i class="fa fa-undo" aria-hidden="true"></i>
-                            <input type="hidden" value="[% Item.ID %]" name="[% Data.Name %]">
+                            <input type="hidden" value="[% Data.ID %]" name="[% Data.Name %]">
                         </a>
+                        [% ELSE %]
+                        <i class="fa fa-check" aria-hidden="true"></i>
                         [% END %]
                     </td>
                 </tr>
-                [% END %]
+[% RenderBlockEnd("ChangeRow") %]
             </tbody>
         </table>
-            
         [% ELSIF Data.UpdateFail %]
             <p>[% Translate("This setting is currently locked by another user.") | html %]</p>
         [% ELSE %]
